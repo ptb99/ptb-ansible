@@ -1,0 +1,52 @@
+# this role is used to make the initial setup of the Raspberry, setting up
+# the SSH key, hostname, and network params
+---
+- name: "piconfig - Enable SSH daemon"
+  become: yes
+  command: "raspi-config nonint do_ssh 0"
+
+- name: "piconfig - Set authorized key file for SSH"
+  authorized_key:
+    user: "{{ ansible_user }}"
+    state: present
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+
+- name: "piconfig - Set hostname"
+  become: yes
+  command: "raspi-config nonint do_hostname {{ rpi_hostname }}"
+  notify: piconfig_reboot
+
+- name: "piconfig - reset passwd for pi acct"
+  user: 
+    name="{{ ansible_user }}"
+    password={{ rpi_password|password_hash('sha512') }}
+    update_password=always
+
+
+- name: "piconfig - check if root filesystem needs expanding"
+  command: "raspi-config nonint get_can_expand"
+  register: piconfig_can_expand
+
+- name: "piconfig - expanding root filesystem"
+  command: "raspi-config nonint do_expand_rootfs"
+  when: piconfig_can_expand.stdout != "0"
+  notify: piconfig_reboot
+
+
+- name: "piconfig - Configure timezone"
+  become: yes
+  command: "raspi-config nonint do_change_timezone {{ rpi_timezone }}"
+
+- name: "piconfig - Configure locale"
+  become: yes
+  command: "raspi-config nonint do_change_locale {{ rpi_locale }}"
+
+- name: "piconfig - Configure keyboard"
+  become: yes
+  command: "raspi-config nonint do_configure_keyboard {{ rpi_keyboard_layout }}"
+
+- include: wifi.yml
+  when: wifi_ssid != ''
+  notify: piconfig_reboot
+
+#- reboot?

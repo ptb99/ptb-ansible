@@ -1,0 +1,14 @@
+---
+- hosts: hole
+  become: true
+
+  tasks:
+    - import_tasks: common.yml
+    - name: Install pre-req packages
+      apt:
+        name: unbound
+	state: latest
+    - name: Retrieve Pi-Hole install script
+      fetch: xxxx
+    - name: Running Pi-Hole install script
+      command: xxxx

@@ -1,0 +1,12 @@
+---
+- hosts: cam2
+  become: true
+
+  tasks:
+    - include: common.yml
+
+#    - name: Install pre-req packages
+#      apt:
+#        name: ffmpeg
+#	 state: latest
+

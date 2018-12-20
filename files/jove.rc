@@ -1,0 +1,22 @@
+## system-wide initialization file 
+
+# Modern terminals do not need ^S/^Q for flow control.
+# The exceptions (e.g. vt100) should turn it off again in jove.rc.TERM.
+set allow-^S-and-^Q on
+
+# This makes the arrow keys work on most terminals.
+bind-to-key previous-line ^[[A
+bind-to-key next-line ^[[B
+bind-to-key forward-character ^[[C
+bind-to-key backward-character ^[[D
+bind-to-key previous-line ^[OA
+bind-to-key next-line ^[OB
+bind-to-key forward-character ^[OC
+bind-to-key backward-character ^[OD
+
+# if you have job control, this puts Jove out of the way temporarily.
+bind-to-key pause-jove ^Z
+bind-to-key pause-jove ^[s
+
+# This causes the previous file version to remain as '#filename~'.
+set make-backup-files on

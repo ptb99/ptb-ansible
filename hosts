@@ -1,0 +1,6 @@
+raspberrypi	ansible_user=pi ansible_password=raspberry
+
+cameras		ansible_user=pi
+cam2		ansible_user=pi
+hole		ansible_user=pi
+volumio		ansible_user=pi

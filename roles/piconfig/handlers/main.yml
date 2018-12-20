@@ -1,0 +1,13 @@
+---
+- name: piconfig_reboot
+
+# (This only works in Ansible 2.7+)
+# reboot:
+
+  command: reboot
+  ignore_errors: true
+  async: 1
+  poll: 0
+
+# debug:
+#   msg="...placeholder for reboot handler..."

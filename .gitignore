@@ -1,0 +1,8 @@
+# Typical output/auto-generated files to ignore (Ansible)
+*~
+*.retry
+*.log
+
+# keep these for reference, but we don't actually use them
+roles/hanxhx.debian_bootstrap
+roles/mikolak-net.raspi_config

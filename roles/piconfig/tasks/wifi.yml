@@ -1,0 +1,7 @@
+---
+- name: "piconfig - Set wifi region"
+  command: "raspi-config nonint do_wifi_country {{ wifi_country }}"
+
+- name: "piconfig - Add wifi configuration"
+  command: "raspi-config nonint do_wifi_ssid_passphrase {{ wifi_ssid }} {{wifi_password }}"
+

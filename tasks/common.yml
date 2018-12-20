@@ -1,0 +1,42 @@
+---
+- name: Install basic convenience packages
+  apt:
+    name="{{items}}" state=latest update_cache=yes autoremove=yes
+  vars:
+    items:
+    - ntp
+    - git
+    - lsof
+    - strace
+    - jove
+
+- name: Install python3 support
+  apt:
+    name: ["python3-pip", "python3-rpi.gpio"]
+    state: latest
+
+#- apt install pkgs/update
+#    - ntp git jove lsof strace
+#    - python3-pip
+#    - python3-rpi.gpio
+#    - python3-django?
+
+- name: Install customized /root .bashrc
+  copy:
+    src=files/root.bashrc
+    dest=/root/.bashrc
+
+- name: Install customized /root .cshrc
+  copy:
+    src=files/root.cshrc
+    dest=/root/.cshrc
+
+- name: Install customized /etc jove.rc
+  copy:
+    src=files/jove.rc
+    dest=/etc/jove/jove.rc
+
+#- name: Install customized /etc smb.conf
+# copy:
+#   src=files/smb.conf
+#   dest=/etc/smb.conf
