@@ -3,10 +3,65 @@
   become: true
 
   tasks:
-    - include: common.yml
+    - include: tasks/common.yml
 
-#    - name: Install pre-req packages
-#      apt:
-#        name: ffmpeg
-#	 state: latest
+    - name: Install MotionEye pre-req packages
+      apt:
+        name="{{apt_pkgs}}" state=latest update_cache=yes autoremove=yes
+      vars:
+       apt_pkgs:
+       - ffmpeg
+       - motion
+       - python-pip
+       - python-dev
+       - libssl-dev
+       - libcurl4-openssl-dev
+       - libjpeg-dev
+       - libz-dev
 
+    - name: Install the MotionEye package
+      pip:
+        name: motioneye
+
+    - name: Create MotionEye config dir (in place of an install script)
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0755
+      with_items:
+        - /etc/motioneye
+        - /var/lib/motioneye
+
+    - name: Copy in MotionEye config file (if not present)
+      copy:
+        src: /usr/local/share/motioneye/extra/motioneye.conf.sample
+        dest: /etc/motioneye/motioneye.conf
+        remote_src: yes
+        force: no
+
+    - name: Create NFS mount point for video storage
+      mount:
+        name: /nfs/furcastle/video
+        src: furcastle:/volume1/video
+        fstype: nfs
+        state: mounted
+
+#    - name: Symlink MotionEye output dir to NFS mountpoint
+#      file:
+#        src: /nfs/furcastle/video/NewSurveillance
+#        dest: /var/lib/motioneye
+#        state: link
+
+    - name: Copy in MotionEye systemd file
+      copy:
+        src: /usr/local/share/motioneye/extra/motioneye.systemd-unit-local 
+        dest: /etc/systemd/system/motioneye.service
+        remote_src: yes
+        force: no
+
+    - name: Enable motioneye daemon
+      command: "{{ item }}"
+      with_items:
+        - systemctl daemon-reload
+        - systemctl enable motioneye
+        - systemctl start motioneye

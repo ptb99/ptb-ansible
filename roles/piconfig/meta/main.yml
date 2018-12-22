@@ -1,0 +1,13 @@
+---
+galaxy_info:
+  author: Tom Pavel
+  description: Basic initial configuration for a Raspbery Pi with Raspbian
+  company:
+  license: MIT
+  min_ansible_version: 2.2
+  platforms:
+    - name: Raspbian
+  categories:
+    - development
+    - system
+dependencies: []

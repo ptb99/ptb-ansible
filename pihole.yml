@@ -2,13 +2,17 @@
 - hosts: hole
   become: true
 
+  vars:
+    script_name: /home/pi/install-pihole.sh
+
   tasks:
-    - import_tasks: common.yml
-    - name: Install pre-req packages
-      apt:
-        name: unbound
-	state: latest
+    - import_tasks: tasks/common.yml
+
     - name: Retrieve Pi-Hole install script
-      fetch: xxxx
+      get_url:
+        url: https://install.pi-hole.net/
+        dest: {{ script_name }}
+        mode: 0755
+
     - name: Running Pi-Hole install script
-      command: xxxx
+      command: bash {{ script_name }}

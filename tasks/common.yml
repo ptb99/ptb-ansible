@@ -9,6 +9,7 @@
     - lsof
     - strace
     - jove
+    - mlocate
 
 - name: Install python3 support
   apt:
