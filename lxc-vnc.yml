@@ -1,0 +1,30 @@
+# Example for creating an Ubuntu container and install Xvnc/etc
+---
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: Create a new container
+      lxd_container:
+        name: vncbox
+        state: started
+        source:
+          type: image
+          mode: pull
+          server: https://images.linuxcontainers.org
+          protocol: lxd
+          alias: ubuntu/xenial/amd64
+        profiles: ["default"]
+        wait_for_ipv4_addresses: true
+        timeout: 600
+
+    - name: check python is installed in container
+      delegate_to: vncbox
+      raw: dpkg -s python
+      register: python_install_check
+      failed_when: python_install_check.rc not in [0, 1]
+      changed_when: false
+
+    - name: install python in container
+      delegate_to: vncbox
+      raw: apt-get install -y python
+      when: python_install_check.rc == 1

@@ -46,11 +46,14 @@
         fstype: nfs
         state: mounted
 
-#    - name: Symlink MotionEye output dir to NFS mountpoint
-#      file:
-#        src: /nfs/furcastle/video/NewSurveillance
-#        dest: /var/lib/motioneye
-#        state: link
+    - name: Symlink MotionEye output dirs to NFS mountpoint
+      file:
+        src: "/nfs/furcastle/video/NewSurveillance/{{item}}"
+        dest: /var/lib/motioneye/
+        state: link
+      with_items:
+        - Camera1
+	- Camera2
 
     - name: Copy in MotionEye systemd file
       copy:
