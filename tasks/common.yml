@@ -16,12 +16,6 @@
     name: ["python3-pip", "python3-rpi.gpio"]
     state: latest
 
-#- apt install pkgs/update
-#    - ntp git jove lsof strace
-#    - python3-pip
-#    - python3-rpi.gpio
-#    - python3-django?
-
 - name: Install customized /root .bashrc
   copy:
     src=files/root.bashrc

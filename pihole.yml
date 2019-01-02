@@ -6,7 +6,7 @@
     script_name: /home/pi/install-pihole.sh
 
   tasks:
-    - import_tasks: tasks/common.yml
+    - include: tasks/common.yml
 
     - name: Retrieve Pi-Hole install script
       get_url:

@@ -1,0 +1,26 @@
+---
+- hosts: proof
+  become: true
+
+  # vars:
+  #   script_name: /home/pi/install-pihole.sh
+
+  tasks:
+    - include: tasks/common.yml
+
+    - name: Enable I2C
+      command: "raspi-config nonint do_i2c 0"
+
+    - name: Enable SPI
+      command: "raspi-config nonint do_spi 0"
+
+    - name: Install python3 dev packages
+      apt:
+        name: ["python3-rpi.gpio", "python3-django", "rrdtool", "librrd-dev"]
+        state: latest
+
+    - name: Install PIP packages
+      pip:
+        name: ["rrdtool", "adafruit-ads1x15", "adafruit-mcp3008"]
+        state: present
+        executable: "pip3"

@@ -4,3 +4,6 @@ cameras		ansible_user=pi
 cam2		ansible_user=pi
 hole		ansible_user=pi
 volumio		ansible_user=pi
+proof		ansible_user=pi
+sensor		ansible_user=pi
+bread		ansible_user=pi

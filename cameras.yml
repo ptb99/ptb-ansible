@@ -53,7 +53,7 @@
         state: link
       with_items:
         - Camera1
-	- Camera2
+        - Camera2
 
     - name: Copy in MotionEye systemd file
       copy:
