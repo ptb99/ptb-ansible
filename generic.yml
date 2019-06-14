@@ -16,11 +16,16 @@
 
     - name: Install python3 dev packages
       apt:
-        name: ["python3-rpi.gpio", "python3-django", "rrdtool", "librrd-dev"]
+        name: ["python3-rpi.gpio", "python3-django", "rrdtool", "librrd-dev", "sqlite3"]
         state: latest
 
     - name: Install PIP packages
       pip:
-        name: ["rrdtool", "adafruit-ads1x15", "adafruit-mcp3008"]
+        name:
+	- "rrdtool"
+	- "adafruit-ads1x15"
+	- "adafruit-mcp3008"
+	- "automationhat"
+	- "i2c-tools"
         state: present
         executable: "pip3"

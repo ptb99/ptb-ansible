@@ -21,3 +21,4 @@ alias lsl="ls -la"
 alias m=less
 alias pd=pushd
 alias pop=popd
+alias purge="rm *~"

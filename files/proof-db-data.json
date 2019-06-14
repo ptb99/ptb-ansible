@@ -1,0 +1,80 @@
+[
+   {
+      "fields" : {
+         "axis_label" : "Temp F",
+         "value_field" : "temp",
+         "duration" : "10m",
+         "upper" : 120,
+         "label" : "10 min",
+         "lower" : 50
+      },
+      "model" : "volts.graph",
+      "pk" : 1
+   },
+   {
+      "fields" : {
+         "label" : "hour",
+         "lower" : 50,
+         "axis_label" : "Temp F",
+         "value_field" : "temp",
+         "duration" : "1h",
+         "upper" : 120
+      },
+      "model" : "volts.graph",
+      "pk" : 2
+   },
+   {
+      "pk" : 3,
+      "model" : "volts.graph",
+      "fields" : {
+         "lower" : 50,
+         "label" : "8 hours",
+         "duration" : "8h",
+         "upper" : 120,
+         "value_field" : "temp",
+         "axis_label" : "Temp F"
+      }
+   },
+   {
+      "pk" : 4,
+      "fields" : {
+         "axis_label" : "Temp F",
+         "value_field" : "temp",
+         "duration" : "1d",
+         "upper" : 120,
+         "label" : "day",
+         "lower" : 50
+      },
+      "model" : "volts.graph"
+   },
+   {
+      "fields" : {
+         "axis_label" : "Temp F",
+         "value_field" : "temp",
+         "upper" : 120,
+         "duration" : "7d",
+         "label" : "week",
+         "lower" : 50
+      },
+      "model" : "volts.graph",
+      "pk" : 5
+   },
+   {
+      "fields" : {
+         "duration" : 4,
+         "target" : 85
+      },
+      "model" : "volts.recipe_step",
+      "pk" : 1
+   },
+   {
+      "pk" : 1,
+      "fields" : {
+         "control" : "Temperature Recipe",
+         "banner" : "Proof Box",
+         "title" : "Proof Box",
+         "color" : "#aa18b2"
+      },
+      "model" : "volts.labels"
+   }
+]
