@@ -7,3 +7,5 @@ volumio		ansible_user=pi
 proof		ansible_user=pi
 sensor		ansible_user=pi
 bread		ansible_user=pi
+kali		ansible_user=root
+furmedia	ansible_user=root

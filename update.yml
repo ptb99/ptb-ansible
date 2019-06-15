@@ -1,0 +1,31 @@
+---
+- hosts:
+    - cam2
+    - hole
+    - furmedia
+    - kali
+    - proof
+    - bread
+    # volumio?
+
+  become: true
+
+  tasks:
+    - name: Upgrade all packages to the latest version
+      apt:
+        upgrade=full
+        update_cache=yes
+        autoremove=yes
+
+    - name: Check if a reboot is required
+      register: file
+      stat: path=/var/run/reboot-required get_md5=no
+
+    - name: Reboot the server
+      command: /sbin/reboot
+      #debug:  msg="...would reboot here..."
+      when: file.stat.exists == true
+
+    - name: Upgrade pihole SW
+      command: /usr/local/bin/pihole -up
+      when: inventory_hostname == "hole"
