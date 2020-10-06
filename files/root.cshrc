@@ -12,6 +12,7 @@ setenv EDITOR vi
 
 
 alias lsl "ls -al"
+alias dir "ls -aF"
 alias em  "emacs -nw"
 alias h history
 alias j "jobs -l"

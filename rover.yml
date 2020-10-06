@@ -1,0 +1,41 @@
+---
+- hosts: rover
+  become: true
+
+  # vars:
+  #   script_name: /home/pi/install-pihole.sh
+
+  tasks:
+    - include_tasks: tasks/common.yml
+
+    - name: Enable I2C
+      command: "raspi-config nonint do_i2c 0"
+
+    - name: Enable SPI
+      command: "raspi-config nonint do_spi 0"
+
+    # add an apt upgrade to this stanza (also check python-dev):
+    # sqlite3 libv4l-dev imagemagick? subversion?
+    # linux-headers-rpi python-dev build-essential
+    # linux-kernel-headers / linux-libc-dev
+    # libjpeg8-dev / libjpeg62-turbo-dev
+    # v4l-utils fswebcam
+    # "python-rpi.gpio" (auto-installed?)
+    - name: Install python2 dev packages
+      apt:
+        name:
+          - python-pip
+          - python-smbus
+          - python-django
+          - sqlite3
+          - libv4l-dev
+          - v4l-utils
+          - libjpeg62-turbo-dev
+        state: latest
+
+    # - name: Install PIP packages
+    #   pip:
+    #     name:
+    #       - "i2c-tools" # not a PIP, pulled as dep for python-smbus above
+    #     state: latest
+    #     #executable: pip3

@@ -1,0 +1,10 @@
+#! /bin/sh
+
+#
+# Wrapper script to start motioneye daemon (link this to /etc/rc.local)
+#
+
+LOGFILE=/var/log/motioneye.log
+OPTS="-c /usr/local/etc/motioneye/motioneye.conf"
+
+/usr/local/bin/meyectl startserver $OPTS 2>&1 > $LOGFILE &

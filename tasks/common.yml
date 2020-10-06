@@ -1,7 +1,12 @@
 ---
+- name: Update and upgrade apt packages
+  apt:
+    upgrade: yes
+    update_cache: yes
+
 - name: Install basic convenience packages
   apt:
-    name="{{items}}" state=latest update_cache=yes autoremove=yes
+    name="{{ items }}" state=latest autoremove=yes purge=yes
   vars:
     items:
     - ntp

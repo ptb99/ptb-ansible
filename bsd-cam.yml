@@ -1,0 +1,64 @@
+###
+### Mimic that cam2 setup, but for a BSD jail on FurNAS
+###
+---
+- hosts: cam
+  become: true
+
+  tasks:
+    # Taken from tasks/common.yml
+    - name: Install customized /root .cshrc
+      copy:
+        src=files/root.cshrc
+        dest=/root/.cshrc
+
+    - name: Install customized /etc jove.rc
+      copy:
+        src=files/jove.rc
+        dest=/root/jove.rc
+
+
+    - name: Install MotionEye pre-req packages
+      pkgng:
+        name:
+        - motion
+        - v4l-utils
+        - py27-pip
+        - curl
+        - jove
+        - lsof
+        state: latest
+        #pkgsite: freshports
+
+    - name: Install the MotionEye package
+      pip:
+        name: motioneye
+        executable: pip-2.7
+
+    - name: Create MotionEye config dir (in place of an install script)
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0755
+      with_items:
+        - /usr/local/etc/motioneye
+        - /var/lib/motioneye
+
+    # - name: Copy in MotionEye config file (if not present)
+    #   copy:
+    #     src: /usr/local/share/motioneye/extra/motioneye.conf.sample
+    #     dest: /usr/local/etc/motioneye/motioneye.conf
+    #     remote_src: yes
+    #     force: no
+
+    - name: Copy in tuned config file
+      copy:
+        src=files/motioneye.conf
+        dest=/usr/local/etc/motioneye/motioneye.conf
+
+    - name: Copy in wrapper script
+      copy:
+        src=files/rc.motioneye
+        dest=/root/rc.motioneye
+
+

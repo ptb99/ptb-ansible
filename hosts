@@ -1,11 +1,22 @@
-raspberrypi	ansible_user=pi ansible_password=raspberry
+[setup]
+raspberrypi	ansible_user=pi ansible_password=raspberry ansible_host=raspberrypi.bogus.domain
 
-cameras		ansible_user=pi
-cam2		ansible_user=pi
-hole		ansible_user=pi
-volumio		ansible_user=pi
-proof		ansible_user=pi
+[pi-fleet]
+#cameras 	ansible_user=pi
+cam2		ansible_user=pi ansible_host=cam2.bogus.domain
+hole		ansible_user=pi ansible_host=hole.bogus.domain
+volumio		ansible_user=pi ansible_host=volumio.bogus.domain
+proof		ansible_user=pi ansible_host=proof.bogus.domain
 sensor		ansible_user=pi
 bread		ansible_user=pi
-kali		ansible_user=root
-furmedia	ansible_user=root
+kali		ansible_user=root ansible_host=kali.bogus.domain
+furmedia	ansible_user=root ansible_host=furmedia.bogus.domain
+rover		ansible_user=pi ansible_host=rover.bogus.domain
+
+[bsd]
+cam		ansible_user=root ansible_host=cam.bogus.domain
+furl		ansible_user=root ansible_host=furl.bogus.domain
+
+[bsd:vars]
+ansible_python_interpreter=/usr/local/bin/python3.7
+#ansible_connection=paramiko

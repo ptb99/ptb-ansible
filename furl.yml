@@ -1,0 +1,49 @@
+###
+### BSD jail on FurNAS for generic web service
+###
+---
+- hosts: furl
+  become: true
+
+  tasks:
+    # Taken from tasks/common.yml
+    - name: Set authorized key file for SSH
+      authorized_key:
+        user: root
+        state: present
+        key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+
+    - name: Install customized /root .cshrc
+      copy:
+        src=files/root.cshrc
+        dest=/root/.cshrc
+
+    - name: Install customized /etc jove.rc
+      copy:
+        src=files/jove.rc
+        dest=/root/jove.rc
+
+    - name: Install essential packages
+      pkgng:
+        name: jove,nginx
+        state: latest
+        #pkgsite: freshports
+
+    - name: Enable nginx daemon
+      lineinfile:
+        path: /etc/rc.conf
+        regexp: '^[#]*nginx_enable'
+        line: 'nginx_enable="YES"'
+
+    - name: Install configs
+      copy:
+        src=files/nginx.conf
+        dest=/usr/local/etc/nginx/nginx.conf
+      register: conf_file
+
+    - name: Reload nginx config
+      service:
+        name: nginx
+        state: reloaded
+      when: ! (conf_file is skipped)
+
