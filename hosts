@@ -12,6 +12,8 @@ bread		ansible_user=pi
 kali		ansible_user=root ansible_host=kali.bogus.domain
 furmedia	ansible_user=root ansible_host=furmedia.bogus.domain
 rover		ansible_user=pi ansible_host=rover.bogus.domain
+wiki		ansible_user=pi ansible_host=wiki.bogus.domain
+adns		ansible_user=pi ansible_host=adns.bogus.domain
 
 [bsd]
 cam		ansible_user=root ansible_host=cam.bogus.domain

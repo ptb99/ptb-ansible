@@ -1,0 +1,23 @@
+---
+- hosts: wiki
+  become: true
+
+  # vars:
+  #   script_name: /home/pi/install-pihole.sh
+
+  tasks:
+    - include_tasks: tasks/common.yml
+
+    - name: Install Java packages
+      apt:
+        name:
+          - openjdk-11-jdk
+          - libswt-gtk-3-java
+          - libswt-webkit-gtk-3-jni
+          - libwebkitgtk-1.0-0
+          - libswt-cairo-gtk-3-jni
+        state: latest
+        
+# install zip from https://github.com/gnosygnu/xowa/releases/download/v4.6.14.2012/xowa_app_arm_v4.6.14.2012.zip
+# unpack zip
+# install run.sh

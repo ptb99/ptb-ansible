@@ -1,0 +1,33 @@
+---
+- hosts: adns
+  become: true
+
+  # vars:
+  #   script_name: /home/pi/install-pihole.sh
+
+  tasks:
+    - include_tasks: tasks/common.yml
+
+    - name: Install extra packages
+      apt:
+        name:
+          - docker.io
+        state: latest
+
+    - name: Update latest docker image
+      command: "docker pull adguard/adguardhome"
+
+    - name: Create directories to hold state
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0755
+      with_items:
+        - /home/pi/AdGuard/confdir
+        - /home/pi/AdGuard/workdir
+
+    - name: Copy in startup script
+      copy:
+        src=files/adguard.sh
+        dest=/home/pi/AdGuard/adguard.sh
+

@@ -27,6 +27,9 @@
         - curl
         - jove
         - lsof
+	- bash
+	# ?? nagios-check_cpu_usage
+	# prob skip lsof due to jail prohib
         state: latest
         #pkgsite: freshports
 
