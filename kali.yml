@@ -1,0 +1,65 @@
+---
+- hosts: kali
+  become: true
+
+  tasks:
+    - include: tasks/common.yml
+
+    - name: Install extra packages for custom network-monitoring
+      apt:
+        name="{{apt_pkgs}}" state=latest update_cache=yes autoremove=yes
+      vars:
+       apt_pkgs:
+       - tcsh
+       - tcpdump
+       - ssldump
+       - tshark
+       - traceroute
+       - kismet
+       - docker
+
+    # - name: Remove unneeded packages
+    #   apt:
+    #     name="{{apt_pkgs}}" state=remove update_cache=yes autoremove=yes
+    #   vars:
+    #    apt_pkgs:
+    #    - kali-desktop-core
+    #    - network-manager
+    #    - xfce4
+
+    - name: Disable unneeded services
+      systemd:
+        name="{{ item }}" enabled=no
+      with_list:
+        - lightdm
+        - NetworkManager
+        - ModemManager
+
+    # - name: Enable httpd service
+    #   systemd:
+    #     name: apache2
+    #     enabled: yes
+    #     masked: no
+
+    - name: Configure timezone
+      timezone:
+        name: America/Los_Angeles
+
+    - name: Configure rsyslog.conf
+      blockinfile:
+        path: /etc/rsyslog.conf
+        backup: yes
+        insertafter: "#input(type="imtcp""
+        block: |
+          # provides UDP syslog reception
+          module(load="imudp")
+          input(type="imudp" port="514")
+          
+          # provides TCP syslog reception
+          module(load="imtcp")
+          input(type="imtcp" port="514")
+
+    # docker pull XXX
+    - name: Nagios config files
+      debug:
+        msg: "copy over object files here..."
