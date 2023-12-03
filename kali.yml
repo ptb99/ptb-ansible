@@ -3,7 +3,7 @@
   become: true
 
   tasks:
-    - include: tasks/common.yml
+    - include_tasks: tasks/common.yml
 
     - name: Install extra packages for custom network-monitoring
       apt:
@@ -15,51 +15,45 @@
        - ssldump
        - tshark
        - traceroute
-       - kismet
-       - docker
+       - docker.io
+      # This is only in Kali Linux, not in Raspbian:
+      # - kismet
 
-    # - name: Remove unneeded packages
-    #   apt:
-    #     name="{{apt_pkgs}}" state=remove update_cache=yes autoremove=yes
+    # - name: Configure rsyslog.conf
+    #   blockinfile:
+    #     path: /etc/rsyslog.conf
+    #     backup: yes
+    #     insertafter: "#input(type="imtcp""
+    #     block: |
+    #       # provides UDP syslog reception
+    #       module(load="imudp")
+    #       input(type="imudp" port="514")
+    #
+    #       # provides TCP syslog reception
+    #       module(load="imtcp")
+    #       input(type="imtcp" port="514")
+
+    # # (docker hub login??)
+    # - name: Pull default Docker images
+    #   community.docker.docker_image:
+    #     name: "{{docker_images}}"
+    #     source: pull
     #   vars:
-    #    apt_pkgs:
-    #    - kali-desktop-core
-    #    - network-manager
-    #    - xfce4
+    #     docker_host: tcp://kali.bogus.domain:2376
+    #     docker_images:
+    #     - manios/nagios
+    #     - python
+    #     - nginx
+    #     - portainer/portainer-ce
 
-    - name: Disable unneeded services
-      systemd:
-        name="{{ item }}" enabled=no
-      with_list:
-        - lightdm
-        - NetworkManager
-        - ModemManager
+    # - name: Create default containers
+    #   community.docker.docker_container:
+    #   name: "{{ default_container_name }}{{ item }}"
+    #   image: "{{ default_container_image }}"
+    #   command: "{{ default_container_command }}"
+    #   state: present
+    #   with_sequence: count={{ container_count }}
 
-    # - name: Enable httpd service
-    #   systemd:
-    #     name: apache2
-    #     enabled: yes
-    #     masked: no
-
-    - name: Configure timezone
-      timezone:
-        name: America/Los_Angeles
-
-    - name: Configure rsyslog.conf
-      blockinfile:
-        path: /etc/rsyslog.conf
-        backup: yes
-        insertafter: "#input(type="imtcp""
-        block: |
-          # provides UDP syslog reception
-          module(load="imudp")
-          input(type="imudp" port="514")
-          
-          # provides TCP syslog reception
-          module(load="imtcp")
-          input(type="imtcp" port="514")
-
-    # docker pull XXX
     - name: Nagios config files
       debug:
         msg: "copy over object files here..."
