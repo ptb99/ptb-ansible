@@ -1,14 +1,14 @@
 [setup]
 raspberrypi	ansible_user=pi ansible_password=raspberry ansible_host=raspberrypi.bogus.domain
 
-[pi-fleet]
+[pifleet]
 #cameras 	ansible_user=pi
 cam2		ansible_user=pi ansible_host=cam2.bogus.domain
 hole		ansible_user=pi ansible_host=hole.bogus.domain
 volumio		ansible_user=pi ansible_host=volumio.bogus.domain
 proof		ansible_user=pi ansible_host=proof.bogus.domain
 sensor		ansible_user=pi
-bread		ansible_user=pi
+bread		ansible_user=pi ansible_host=bread.bogus.domain
 kali		ansible_user=root ansible_host=kali.bogus.domain
 furmedia	ansible_user=root ansible_host=furmedia.bogus.domain
 rover		ansible_user=pi ansible_host=rover.bogus.domain

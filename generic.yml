@@ -22,10 +22,10 @@
     - name: Install PIP packages
       pip:
         name:
-	- "rrdtool"
-	- "adafruit-ads1x15"
-	- "adafruit-mcp3008"
-	- "automationhat"
-	- "i2c-tools"
+        - "rrdtool"
+        - "adafruit-ads1x15"
+        - "adafruit-mcp3008"
+        - "automationhat"
+        - "i2c-tools"
         state: present
         executable: "pip3"

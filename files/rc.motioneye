@@ -5,6 +5,6 @@
 #
 
 LOGFILE=/var/log/motioneye.log
-OPTS="-c /usr/local/etc/motioneye/motioneye.conf"
+OPTS="-c /usr/local/etc/motioneye/motioneye.conf -l"
 
 /usr/local/bin/meyectl startserver $OPTS 2>&1 > $LOGFILE &
