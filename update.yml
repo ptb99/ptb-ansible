@@ -1,6 +1,5 @@
 ---
 - hosts:
-    - cam2
     - hole
     - furmedia
     - kali
@@ -12,20 +11,23 @@
 
   tasks:
     - name: Upgrade all packages to the latest version
-      apt:
+      ansible.builtin.apt:
         upgrade=full
         update_cache=yes
         autoremove=yes
 
     - name: Check if a reboot is required
-      register: file
-      stat: path=/var/run/reboot-required get_md5=no
+      register: f
+      ansible.builtin.stat:
+        path=/var/run/reboot-required
+        get_checksum=no
+        get_attributes=no
 
     - name: Reboot the server
-      command: /sbin/reboot
-      #debug:  msg="...would reboot here..."
-      when: file.stat.exists == true
+      ansible.builtin.command: /sbin/reboot
+      #ansible.builtin.debug:  msg="...would reboot here..."
+      when: f.stat.exists is defined and f.stat.exists
 
     - name: Upgrade pihole SW
-      command: /usr/local/bin/pihole -up
+      ansible.builtin.command: /usr/local/bin/pihole -up
       when: inventory_hostname == "hole"
